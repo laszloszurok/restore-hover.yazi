@@ -46,11 +46,15 @@ local function get_last_line(filepath)
     return lastLine
 end
 
+local function escape_special_chars(str)
+    return str:gsub("[%(%)%.%%%+%-%*%?%[%]%^%$]", "%%%0")
+end
+
 local function save_last_hovered(hovered, cachepath)
     local cachefileptr = assert(io.open(cachepath, "r"))
     local content = cachefileptr:read("*a")
     cachefileptr:close()
-    content = content:gsub(hovered:gsub("[%(%)%.%%%+%-%*%?%[%]%^%$]", "%%%0").."\n", '')
+    content = content:gsub(escape_special_chars(hovered) .. "\n", '')
     io.open(cachepath, "w"):close()
     cachefileptr = assert(io.open(cachepath, "w"))
     cachefileptr:write(content, "")
@@ -63,7 +67,7 @@ end
 local function get_last_hovered_for_cwd(cachepath)
     local cwd = cx.active.current.cwd
     for line in linesbackward(cachepath) do
-        local position = string.find(line, tostring(cwd).."/[^/]*$")
+        local position = string.find(line, escape_special_chars(tostring(cwd)) .. "/[^/]*$")
         if position ~= nil then
             return line
         end
