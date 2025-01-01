@@ -1,2 +1,6 @@
 # restore-hover.yazi
-A yazi plugin that makes it possible to open yazi where you last left off.
+
+[!IMPORTANT]
+work in progress
+
+A [yazi](https://github.com/sxyazi/yazi/) plugin that makes it possible to open yazi where you last left off.
