@@ -27,13 +27,6 @@ local function mtime()
     return ui.Span(os.date("%Y-%m-%d %H:%M", h.cha.mtime // 1) .. " ")
 end
 
-local function freedisk()
-    local handle = assert(io.popen('df --human-readable --output=avail "$PWD" | tail -n1 | xargs'))
-    local free = handle:read("*a")
-    handle:close()
-    return ui.Span(free)
-end
-
 local function perms()
     local h = cx.active.current.hovered
     if not h then
@@ -63,6 +56,13 @@ local function perms()
     return ui.Line(spans)
 end
 
+local function freedisk()
+    local handle = assert(io.popen('df --human-readable --output=avail "$PWD" | tail -n1 | xargs'))
+    local free = handle:read("*a")
+    handle:close()
+    return ui.Span(free)
+end
+
 return {
     setup = function()
         Status:children_remove(1, Status.LEFT) -- mode
@@ -76,6 +76,6 @@ return {
         Status:children_add(spacer, 2, Status.LEFT)
         Status:children_add(owner, 3, Status.LEFT)
         Status:children_add(mtime, 4, Status.LEFT)
-        Status:children_add(mtime, 5, Status.RIGHT)
+        Status:children_add(freedisk, 5, Status.RIGHT)
     end,
 }
