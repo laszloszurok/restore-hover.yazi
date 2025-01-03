@@ -60,7 +60,7 @@ local function freedisk()
     local handle = assert(io.popen('df --human-readable --output=avail "$PWD" | tail -n1 | xargs'))
     local free = handle:read("*a")
     handle:close()
-    return ui.Span(free)
+    return ui.Span("free: " .. free)
 end
 
 return {
