@@ -1,4 +1,4 @@
-# yazi plugins restore-hover
+# restore-hover
 
 > [!IMPORTANT]
 > work in progress
